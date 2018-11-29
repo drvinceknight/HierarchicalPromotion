@@ -1,0 +1,9 @@
+name: hrcy
+channels:
+  - defaults
+dependencies:
+  - python=3.6.7
+  - pip:
+      - pytest==4.0.1
+      - pytest-cov==2.6.0
+prefix: /home/nightwing/anaconda3/envs/hrcy
