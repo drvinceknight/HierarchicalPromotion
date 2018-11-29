@@ -246,3 +246,4 @@ TSWLatexianTemp*
 src/hierarchy.egg-info/
 src/hierarchy/__pycache__/
 tests/__pycache__/
+.coverage
