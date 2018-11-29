@@ -1,0 +1,81 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\title{The effect of homophily in hierarchical systems}
+
+\renewcommand{\S}{\mathcal{S}}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Mathematical formulation of model}
+
+\begin{itemize}
+    \item Given a hierarchical system with \(K\) levels.
+    \item Level \(0\leq k < K\) has capacity \(C_k\)
+    \item The first level (\(k=0\)) has the most capacity and capacity is
+        monotonically decreasing: \(C_0 > C_1 > \dots > C_{k-1}\).
+    \item There are 2 types of agents: \(j\in\{0, 1\}\).
+\end{itemize}
+
+Consider a state space \(\S\):
+
+\begin{equation}\label{eqn:state_space}
+    \S = \mathbb{Z} ^ {K \times 2} _ {\geq 0}
+\end{equation}
+
+Where \(s_{ij}\) denotes the number of individuals of type \(j\) at level \(i\).
+
+For example,
+
+\begin{itemize}
+    \item Let \(K = 3\)
+    \item Let \(C = (5, 3, 2)\)
+\end{itemize}
+
+Then:
+
+\[
+    s = \begin{pmatrix}
+        3 & 1 \\
+        2 & 1 \\
+        1 & 1 \\
+    \end{pmatrix}
+\]
+
+corresponds to a system with 3 agents of first type and 1 of second type at the
+first level, 2 of first type and 1 of second type at the second level and 1 of
+each type at the 3rd level.
+
+Given two elements \(s^{(1)}, s^{(2)}\in \S\) the transition rates are given by:
+
+\begin{equation}\label{eqn:transition_rates}
+    Q_{s_1, s_2} =
+        \begin{cases}
+            \mu_{ij},& \text{ if }s^{(2)} - s^{(1)} = -e_{ij}
+                       \text{ and }s^{(1)}_{i0} + s^{(1)}_{i1} = C_{i}\\
+           rS_{ij} + S_{i, \bar j},& \text{ if }s^{(2)} - s^{(1)} = e_{ij} - e_{i-1, j}
+                                     \text{ and }s^{(1)}_{i0} + s^{(1)}_{i1} < C_{i}
+                                     \text{ and }i > 0\\
+           \lambda_{j},&\text{ if }s^{(1)}_{00} + s^{(1)}_{01} = C_{0} - 1\\
+        \end{cases}
+\end{equation}
+
+Where:
+
+\begin{itemize}
+    \item \(\mu_{ij}\) is the retirement rate of agents of type \(j\) at level
+        \(i\).
+    \item \(r > 1\) is a constant that reflects the homophily effect.
+    \item \(\lambda_j\) is the hiring rate of individuals of type \(j\).
+\end{itemize}
+
+% TODO Add some examples.
+
+\end{document}
+
+
