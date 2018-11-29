@@ -66,4 +66,6 @@ def get_transition_matrix(capacities, r, lmbda, mu):
 
         if rate != 0:
             matrix[i, j] = rate
+    for i in range(size):
+        matrix[i, i] = - sum(matrix[i])
     return matrix
