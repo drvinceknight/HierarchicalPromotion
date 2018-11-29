@@ -1,4 +1,9 @@
+import itertools
+
 import numpy as np
+
+import hierarchy as hrcy
+
 
 def get_rate(
         state_in,
@@ -41,3 +46,24 @@ def get_rate(
             return r * state_in[i, j] + state_in[i, (j + 1) % 2]
 
     return 0
+
+def get_transition_matrix(capacities, r, lmbda, mu):
+    """
+    Obtain the transition matrix.
+
+    - capacities: the capacities
+    - r: the homophily rate (?)
+    - lmbda: the hiring rate (vector of size 2)
+    - mu: the retirement rate (matrix of same size as state space)
+    """
+    states = list(hrcy.states.get_states(capacities=capacities))
+    size = len(states)
+    matrix = np.zeros((size, size))
+    for i, j in itertools.product(range(size), repeat=2):
+        state_in, state_out = states[i], states[j]
+        rate = get_rate(state_in=state_in, state_out=state_out, capacities=capacities,
+        r=r, lmbda=lmbda, mu=mu)
+
+        if rate != 0:
+            matrix[i, j] = rate
+    return matrix

@@ -1,6 +1,8 @@
 import itertools
 import types
 
+import numpy as np
+
 import hierarchy as hrcy
 
 
@@ -59,3 +61,24 @@ def test_get_transition_rate():
             lmbda=lmbda,
             mu=mu,
             ) == 0
+
+def test_get_transition_matrix():
+    capacities = [2, 1]
+    r = 1.1
+    lmbda = [2, 3]
+    mu = [[.2, .1], [1.2, 1.1]]
+
+    matrix = hrcy.transitions.get_transition_matrix(capacities=capacities, r=r, lmbda=lmbda, mu=mu)
+    assert np.array_equal(matrix.shape, np.array([10, 10]))
+
+    expected_matrix = np.array([[0,  0,  0,  0,  0,  0,  0.1, 0 ,  0 ,  0 ],
+                                [0,  0,  0,  0,  0,  0,  0. , 0.1, 0 ,  0 ],
+                                [0,  0,  0,  0,  0,  0,  0.2, 0 ,  0.1, 0 ],
+                                [0,  0,  0,  0,  0,  0,  0. , 0.2, 0 ,  0.1],
+                                [0,  0,  0,  0,  0,  0,  0. , 0 ,  0.2, 0 ],
+                                [0,  0,  0,  0,  0,  0,  0. , 0 ,  0 ,  0.2],
+                                [3,  0,  2,  0,  0,  0,  0. , 0 ,  0 ,  0 ],
+                                [0,  3,  0,  2,  0,  0,  0. , 0 ,  0 ,  0 ],
+                                [0,  0,  3,  0,  2,  0,  0. , 0 ,  0 ,  0 ],
+                                [0,  0,  0,  3,  0,  2,  0. , 0 ,  0 ,  0 ]])
+    assert np.array_equal(matrix, expected_matrix)
