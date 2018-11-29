@@ -5,13 +5,12 @@ import hierarchy as hrcy
 
 
 def test_get_states():
-    capacities = [1, 2]
+    capacities = [2, 1]
     states_generator = hrcy.states.get_states(capacities)
     assert type(states_generator) is itertools.filterfalse
 
-    expected_states = list(itertools.product([(0, 0), (0, 1), (1, 0)], 
-                                             [(0, 1), (0, 2), (1, 0), (1, 1),
-                                              (2, 0)]))
+    expected_states = list(itertools.product([(0, 2), (1, 1), (2, 0), (0, 1), (1, 0)],
+                                             [(0, 1), (1, 0)]))
     assert list(states_generator) == expected_states
 
 
@@ -21,5 +20,5 @@ def test_get_level_states():
     assert type(states_generators) is types.GeneratorType
 
     states = list(states_generators)
-    assert states == [ (0, 0), (0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2),
-                       (2, 0), (2, 1), (3, 0)]
+    assert states == [(0, 3), (1, 2), (2, 1), (3, 0),
+                      (0, 2), (1, 1), (2, 0)]
