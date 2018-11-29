@@ -47,7 +47,7 @@ def get_rate(
 
     return 0
 
-def get_transition_matrix(capacities, r, lmbda, mu):
+def get_transition_matrix(capacities, r, lmbda, mu, digits=7):
     """
     Obtain the transition matrix.
 
@@ -68,4 +68,4 @@ def get_transition_matrix(capacities, r, lmbda, mu):
             matrix[i, j] = rate
     for i in range(size):
         matrix[i, i] = - sum(matrix[i])
-    return matrix
+    return np.round(matrix, digits)

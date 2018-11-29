@@ -82,3 +82,13 @@ def test_get_transition_matrix():
                                 [0  ,  0  ,  3  ,  0  ,  2  ,  0  ,  0  , 0  ,  -5 ,  0 ],
                                 [0  ,  0  ,  0  ,  3  ,  0  ,  2  ,  0  , 0  ,  0  ,  -5 ]])
     assert np.allclose(matrix, expected_matrix)
+
+def test_get_transition_matrix_example_two():
+    capacities = [4, 2, 1]
+    r = 1.1
+    lmbda = [2, 3]
+    mu = [[.2, .1,], [1.2, 1.1], [1.5, 1.7]]
+
+    matrix = hrcy.transitions.get_transition_matrix(capacities=capacities, r=r, lmbda=lmbda, mu=mu)
+    assert np.array_equal(matrix.shape, np.array([90, 90]))
+    assert np.allclose(np.sum(matrix, axis=1), 0)
