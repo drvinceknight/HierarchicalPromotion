@@ -25,7 +25,14 @@
 Consider a state space \(\S\):
 
 \begin{equation}\label{eqn:state_space}
-    \S = \mathbb{Z} ^ {K \times 2} _ {\geq 0}
+    \S = \left\{s \in \mathbb{Z} ^ {K \times 2} _ {\geq 0}\left|
+        \begin{array}{l}
+        s_{i0} + s_{i1} \leq C_i\text{ for all }0\leq i \leq K - 1\\
+        s_{K-1,0} + s_{K-1,1} = C_{K - 1}\\
+        \sum_{i=0}^{K - 1}s_{i0} + s_{i1} \in\left\{\sum_{i=0}^{K}C_i, \sum_{i=0}^{K}C_i - 1\right\}\\
+
+        \end{array}
+                \right.\right\}
 \end{equation}
 
 Where \(s_{ij}\) denotes the number of individuals of type \(j\) at level \(i\).
@@ -50,6 +57,17 @@ Then:
 corresponds to a system with 3 agents of first type and 1 of second type at the
 first level, 2 of first type and 1 of second type at the second level and 1 of
 each type at the 3rd level.
+
+The constraints on \(\S\) ensure that either all positions are filled or a
+single position is available. Thus at any stage either all spots are full and
+someone will retire or there will be a spot available and someone will be
+hired/promoted.
+
+The size of the state space is then given by:
+
+\begin{equation}
+    |S| = (C_{K - 1} + 1)\cdot \prod_{i=0}^{K - 2}\left(2C_i + 1\right)
+\end{equation}
 
 Given two elements \(s^{(1)}, s^{(2)}\in \S\) the transition rates are given by:
 

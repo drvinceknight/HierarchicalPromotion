@@ -11,3 +11,9 @@ def get_states(capacities):
     all_states = itertools.product(*[get_level_states(capacity) for capacity in capacities])
     invalid_state = lambda state: sum(state[-1]) == 0
     return itertools.filterfalse(invalid_state, all_states)
+
+def enumerate_states(capacities):
+    cardinality = (capacities[-1] + 1)
+    for capacity in capacities[:-1]:
+        cardinality *= 2 * capacity + 1
+    return cardinality
