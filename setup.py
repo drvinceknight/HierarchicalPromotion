@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 # Read in the version number
-exec(open('src/hierarchy/version.py', 'r').read())
+exec(open("src/hierarchy/version.py", "r").read())
 
 setup(
     name="hierarchy",

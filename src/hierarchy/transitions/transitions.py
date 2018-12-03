@@ -5,14 +5,7 @@ import numpy as np
 import hierarchy as hrcy
 
 
-def get_rate(
-        state_in,
-        state_out,
-        capacities,
-        r,
-        lmbda,
-        mu,
-        ):
+def get_rate(state_in, state_out, capacities, r, lmbda, mu):
     """
     Obtain the transition rate for `state_in` -> `state_out`.
 
@@ -29,23 +22,26 @@ def get_rate(
 
     if len(delta_indices) == 1:
         i, j = delta_indices[0]
-        if (delta[i, j] == -1
-            and np.array_equal(np.sum(state_in, axis=1), capacities)):
+        if delta[i, j] == -1 and np.array_equal(
+            np.sum(state_in, axis=1), capacities
+        ):
             return mu[i][j]
 
         if delta[0, j] == 1 and sum(state_in[0]) == capacities[0] - 1:
             return lmbda[j]
 
-
     if len(delta_indices) == 2:
         i, j = delta_indices[1]
-        if (i > 0
+        if (
+            i > 0
             and sum(state_in[i]) < capacities[i]
             and delta[i, j] == 1
-            and delta[i - 1, j] == -1):
+            and delta[i - 1, j] == -1
+        ):
             return r * state_in[i, j] + state_in[i, (j + 1) % 2]
 
     return 0
+
 
 def get_transition_matrix(capacities, r, lmbda, mu, digits=7):
     """
@@ -61,14 +57,21 @@ def get_transition_matrix(capacities, r, lmbda, mu, digits=7):
     matrix = np.zeros((size, size))
     for i, j in itertools.product(range(size), repeat=2):
         state_in, state_out = states[i], states[j]
-        rate = get_rate(state_in=state_in, state_out=state_out, capacities=capacities,
-        r=r, lmbda=lmbda, mu=mu)
+        rate = get_rate(
+            state_in=state_in,
+            state_out=state_out,
+            capacities=capacities,
+            r=r,
+            lmbda=lmbda,
+            mu=mu,
+        )
 
         if rate != 0:
             matrix[i, j] = rate
     for i in range(size):
-        matrix[i, i] = - sum(matrix[i])
+        matrix[i, i] = -sum(matrix[i])
     return np.round(matrix, digits)
+
 
 def get_potential_states(state_in, capacities):
     """
