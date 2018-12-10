@@ -1,46 +1,32 @@
 import itertools
 import random
 
-head = r"""
-\documentclass{standalone}
 
-\usepackage{tikz}
-\usepackage{standalone}
-\usetikzlibrary{calc}
-
-\begin{document}
-
-\begin{tikzpicture}"""
-
-tail = r"""
-\end{tikzpicture}
-\end{document}"""
-
-def states_to_tikz(capacities, states, include_edges=False, include_boiler_plate=False):
+def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=False):
     write_nodes = ""
-    node_number = 0
+    node_id = 0
     nodes_sets = []
-    for layer, state in enumerate(states):
-        nodes_in_layer = 0
-        nodes_subset = []
-        for type_i in range(state[0]):
-            write_nodes += r"\node[circle, draw=black, dashed, fill=blue]  (%s) at (%s, %s) {};" % (node_number, nodes_in_layer, layer) + "\n"
-            nodes_subset.append(node_number)
-            node_number += 1
-            nodes_in_layer += 1
-        
-        for type_j in range(state[1]):
-            write_nodes += r"\node[circle, draw=black, dotted, fill=red]  (%s) at (%s, %s) {};" % (node_number, nodes_in_layer, layer) + "\n"
-            nodes_subset.append(node_number)
-            node_number += 1
-            nodes_in_layer += 1
-            
-        while nodes_in_layer  < capacities[layer]:
-            write_nodes += r"\node[circle, draw=black]  (%s) at (%s, %s) {};" % (node_number, nodes_in_layer, layer) + "\n"
-            nodes_subset.append(node_number)
-            node_number += 1
-            nodes_in_layer += 1
-        nodes_sets.append(nodes_subset)
+    for level, row in enumerate(state):
+        number_of_nodes_in_level = 0
+        nodes_in_level = []
+        for type_i in range(row[0]):
+            write_nodes += f"\node[circle, draw=black, dashed, fill=blue]  ({node_id}) at ({nodes_in_level}, {level}); \n"
+            nodes_in_level.append(node_id)
+            node_id += 1
+            number_of_nodes_in_level += 1
+
+        for type_j in range(row[1]):
+            write_nodes += f"\node[circle, draw=black, dotted, fill=red]  ({node_id}) at ({nodes_in_level}, {level}); \n"
+            nodes_in_level.append(node_id)
+            node_id += 1
+            number_of_nodes_in_level += 1
+
+        while number_of_nodes_in_level  < capacities[level]:
+            write_nodes += f"\node[circle, draw=black]  ({node_id}) at ({nodes_in_level}, {level}); \n"
+            nodes_in_level.append(node_id)
+            node_id += 1
+            number_of_nodes_in_level += 1
+        nodes_sets.append(nodes_in_level)
 
     write_edges = ""
     if include_edges:
@@ -51,6 +37,20 @@ def states_to_tikz(capacities, states, include_edges=False, include_boiler_plate
     tikz_code = write_nodes + write_edges
 
     if include_boiler_plate:
+        head = r"""
+                \documentclass{standalone}
+
+                \usepackage{tikz}
+                \usepackage{standalone}
+                \usetikzlibrary{calc}
+
+                \begin{document}
+
+                \begin{tikzpicture}"""
+
+        tail = r"""
+                \end{tikzpicture}
+                \end{document}"""
         tikz_code = head + tikz_code + tail
 
     return tikz_code
