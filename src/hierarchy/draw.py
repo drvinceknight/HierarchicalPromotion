@@ -4,22 +4,18 @@ import random
 
 def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=False):
     write_nodes = ""
+    colors, styles = ['blue', 'red'], ['dashed', 'dotted']
     node_id = 0
     nodes_sets = []
     for level, row in enumerate(state):
         number_of_nodes_in_level = 0
         nodes_in_level = []
-        for type_i in range(row[0]):
-            write_nodes += f"\node[circle, draw=black, dashed, fill=blue]  ({node_id}) at ({nodes_in_level}, {level}); \n"
-            nodes_in_level.append(node_id)
-            node_id += 1
-            number_of_nodes_in_level += 1
-
-        for type_j in range(row[1]):
-            write_nodes += f"\node[circle, draw=black, dotted, fill=red]  ({node_id}) at ({nodes_in_level}, {level}); \n"
-            nodes_in_level.append(node_id)
-            node_id += 1
-            number_of_nodes_in_level += 1
+        for individual_type, style, colour in zip((0, 1), styles, colors):
+            for individual in range(row[individual_type]):
+                write_nodes += f"\node[circle, draw=black, {style}, fill={colour}] ({node_id}) at ({nodes_in_level}, {level}); \n"
+                nodes_in_level.append(node_id)
+                node_id += 1
+                number_of_nodes_in_level += 1
 
         while number_of_nodes_in_level  < capacities[level]:
             write_nodes += f"\node[circle, draw=black]  ({node_id}) at ({nodes_in_level}, {level}); \n"
@@ -39,13 +35,10 @@ def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=F
     if include_boiler_plate:
         head = r"""
                 \documentclass{standalone}
-
                 \usepackage{tikz}
                 \usepackage{standalone}
                 \usetikzlibrary{calc}
-
                 \begin{document}
-
                 \begin{tikzpicture}"""
 
         tail = r"""
