@@ -2,8 +2,14 @@ import itertools
 import random
 
 
-def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=False,
-colors=['blue', 'red'], styles=['dashed', 'dotted']):
+def state_to_tikz(
+    capacities,
+    state,
+    include_edges=False,
+    include_boiler_plate=False,
+    colors=["blue", "red"],
+    styles=["dashed", "dotted"],
+):
     write_nodes = ""
     node_id = 0
     nodes_sets = []
@@ -17,7 +23,7 @@ colors=['blue', 'red'], styles=['dashed', 'dotted']):
                 node_id += 1
                 number_of_nodes_in_level += 1
 
-        while number_of_nodes_in_level  < capacities[level]:
+        while number_of_nodes_in_level < capacities[level]:
             write_nodes += fr"\node[circle, draw=black]  ({node_id}) at ({nodes_in_level}, {level}); \n"
             nodes_in_level.append(node_id)
             node_id += 1
