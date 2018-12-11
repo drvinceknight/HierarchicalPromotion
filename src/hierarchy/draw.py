@@ -2,9 +2,9 @@ import itertools
 import random
 
 
-def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=False):
+def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=False,
+colors=['blue', 'red'], styles=['dashed', 'dotted']):
     write_nodes = ""
-    colors, styles = ['blue', 'red'], ['dashed', 'dotted']
     node_id = 0
     nodes_sets = []
     for level, row in enumerate(state):
@@ -12,13 +12,13 @@ def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=F
         nodes_in_level = []
         for individual_type, style, colour in zip((0, 1), styles, colors):
             for individual in range(row[individual_type]):
-                write_nodes += f"\node[circle, draw=black, {style}, fill={colour}] ({node_id}) at ({nodes_in_level}, {level}); \n"
+                write_nodes += fr"\node[circle, draw=black, {style}, fill={colour}] ({node_id}) at ({nodes_in_level}, {level}); \n"
                 nodes_in_level.append(node_id)
                 node_id += 1
                 number_of_nodes_in_level += 1
 
         while number_of_nodes_in_level  < capacities[level]:
-            write_nodes += f"\node[circle, draw=black]  ({node_id}) at ({nodes_in_level}, {level}); \n"
+            write_nodes += fr"\node[circle, draw=black]  ({node_id}) at ({nodes_in_level}, {level}); \n"
             nodes_in_level.append(node_id)
             node_id += 1
             number_of_nodes_in_level += 1
@@ -28,7 +28,7 @@ def state_to_tikz(capacities, state, include_edges=False, include_boiler_plate=F
     if include_edges:
         for i, _ in enumerate(nodes_sets[:-1]):
             for pair in itertools.product(nodes_sets[i], nodes_sets[i + 1]):
-                write_edges += r"\draw (%s) -- (%s);" % (pair) + "\n"
+                write_edges += fr"\draw ({pair[0]}) -- ({pair[1]}); \n"
 
     tikz_code = write_nodes + write_edges
 
