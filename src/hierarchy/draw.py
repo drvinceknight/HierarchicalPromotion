@@ -7,7 +7,7 @@ def state_to_tikz(
     state,
     include_edges=False,
     include_boiler_plate=False,
-    colors=["blue", "red"],
+    colors=["blue", "red", "black"],
     styles=["dashed", "dotted"],
 ):
     write_nodes = ""
@@ -17,14 +17,14 @@ def state_to_tikz(
         number_of_nodes_in_level = 0
         nodes_in_level = []
         for individual_type, style, colour in zip((0, 1), styles, colors):
-            for individual in range(row[individual_type]):
-                write_nodes += fr"\node[circle, draw=black, {style}, fill={colour}] ({node_id}) at ({nodes_in_level}, {level}); \n"
+            for individual in range(int(row[individual_type])):
+                write_nodes += fr"\node[circle, draw=black, {style}, fill={colour}] ({node_id}) at ({number_of_nodes_in_level}, {level}) {{}};"
                 nodes_in_level.append(node_id)
                 node_id += 1
                 number_of_nodes_in_level += 1
 
         while number_of_nodes_in_level < capacities[level]:
-            write_nodes += fr"\node[circle, draw=black]  ({node_id}) at ({nodes_in_level}, {level}); \n"
+            write_nodes += fr"\node[circle, draw=black, fill={colors[-1]}]  ({node_id}) at ({number_of_nodes_in_level}, {level}) {{}};"
             nodes_in_level.append(node_id)
             node_id += 1
             number_of_nodes_in_level += 1
@@ -34,7 +34,7 @@ def state_to_tikz(
     if include_edges:
         for i, _ in enumerate(nodes_sets[:-1]):
             for pair in itertools.product(nodes_sets[i], nodes_sets[i + 1]):
-                write_edges += fr"\draw ({pair[0]}) -- ({pair[1]}); \n"
+                write_edges += fr"\draw ({pair[0]}) -- ({pair[1]});"
 
     tikz_code = write_nodes + write_edges
 
