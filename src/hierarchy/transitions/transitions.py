@@ -14,6 +14,7 @@ def get_rate(state_in, state_out, capacities, r, lmbda, mu):
     - lmbda: the hiring rate (vector of size 2)
     - mu: the retirement rate (matrix of same size as state space)
     """
+    assert capacities[-1] == 1
     state_in = np.array(state_in)
     state_out = np.array(state_out)
     delta = state_out - state_in
@@ -51,6 +52,7 @@ def get_transition_matrix(capacities, r, lmbda, mu, digits=7):
     - lmbda: the hiring rate (vector of size 2)
     - mu: the retirement rate (matrix of same size as state space)
     """
+    assert capacities[-1] == 1
     states = list(hrcy.states.get_states(capacities=capacities))
     size = len(states)
     matrix = np.zeros((size, size))

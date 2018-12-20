@@ -1,6 +1,6 @@
 import hierarchy as hrcy
 
-capacities = [5, 3, 2]
+capacities = [5, 3, 1]
 state = [[3, 2], [1, 2], [1, 0]]
 
 
