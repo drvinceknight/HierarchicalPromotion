@@ -80,6 +80,7 @@ def get_potential_states(state_in, capacities):
     state_in = np.array(state_in)
     number_of_levels = len(capacities)
     states = []
+
     if is_full(state_in=state_in, capacities=capacities):
         for level in range(number_of_levels - 1):  # No retirement at top level
             for column in (0, 1):
@@ -93,6 +94,8 @@ def get_potential_states(state_in, capacities):
         for column in (0, 1):
             adjustment = np.zeros((number_of_levels, 2))
             adjustment[level, column] = 1
+            if level > 0:
+                adjustment[level - 1, column] = -1
             states.append(state_in + adjustment)
     return states
 
