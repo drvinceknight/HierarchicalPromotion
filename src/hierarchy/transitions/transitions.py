@@ -93,10 +93,13 @@ def get_potential_states(state_in, capacities):
     for level in find_free_levels(state_in=state_in, capacities=capacities):
         for column in (0, 1):
             adjustment = np.zeros((number_of_levels, 2))
-            adjustment[level, column] = 1
-            if level > 0:
+            if level == 0:
+                adjustment[level, column] = 1
+                states.append(state_in + adjustment)
+            elif state_in[level - 1, column] > 0:
+                adjustment[level, column] = 1
                 adjustment[level - 1, column] = -1
-            states.append(state_in + adjustment)
+                states.append(state_in + adjustment)
     return states
 
 
