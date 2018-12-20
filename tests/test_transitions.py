@@ -139,6 +139,21 @@ def test_get_potential_states_promotion():
         state_in=state_in, capacities=capacities
     )
     expected_states = ([[1, 2], [2, 0], [1, 0]], [[2, 1], [1, 1], [1, 0]])
+    assert len(expected_states) == len(potential_states)
+    assert all(
+        np.array_equal(potential, expected)
+        for potential, expected in zip(potential_states, expected_states)
+    )
+
+
+def test_get_potential_states_promotion_all_capacities_one():
+    capacities = [1, 1, 1]
+    state_in = [[0, 1], [0, 0], [0, 1]]
+    potential_states = hrcy.transitions.get_potential_states(
+        state_in=state_in, capacities=capacities
+    )
+    expected_states = ([[0, 0], [0, 1], [0, 1]],)
+    assert len(expected_states) == len(potential_states)
     assert all(
         np.array_equal(potential, expected)
         for potential, expected in zip(potential_states, expected_states)
