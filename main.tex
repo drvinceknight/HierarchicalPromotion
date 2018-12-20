@@ -76,7 +76,7 @@ Given two elements \(s^{(1)}, s^{(2)}\in \S\) the transition rates are given by:
         \begin{cases}
             \mu_{ij},& \text{ if }s^{(2)} - s^{(1)} = -e_{ij}
             \text{ and }s^{(1)}_{i0} + s^{(1)}_{i1} = C_i\text{ for all }i\\
-           rS_{ij} + S_{i, \bar j},& \text{ if }s^{(2)} - s^{(1)} = e_{ij} - e_{i-1, j}
+           \text{max}(rS_{ij} + S_{i, \bar j}, 1),& \text{ if }s^{(2)} - s^{(1)} = e_{ij} - e_{i-1, j}
                                      \text{ and }s^{(1)}_{i0} + s^{(1)}_{i1} < C_{i}
                                      \text{ and }i > 0\\
            \lambda_{j},&\text{ if }s^{(2)} - s^{(1)} = e_{0j}
