@@ -19,6 +19,7 @@ def test_stationary():
     assert np.allclose(pi @ matrix, 0)
     assert len(pi) == matrix.shape[0]
     assert np.min(pi) >= 0
+    assert np.sum(pi) == 1
 
 
 def test_stationary_example_two():
@@ -36,4 +37,5 @@ def test_stationary_example_two():
 
     assert np.allclose(pi @ matrix, 0)
     assert len(pi) == matrix.shape[0]
-    assert np.min(pi) >= 0
+    assert np.min(pi) >= -10 ** -7
+    assert np.isclose(np.sum(pi), 1)
