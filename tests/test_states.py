@@ -38,3 +38,7 @@ def test_enumerate_states():
     capacities = [5, 4, 2, 1]
     states = list(hrcy.states.get_states(capacities))
     assert len(states) == hrcy.states.enumerate_states(capacities)
+
+    capacities = [5, 4, 2]
+    states = list(hrcy.states.get_states(capacities))
+    assert len(states) == hrcy.states.enumerate_states(capacities)

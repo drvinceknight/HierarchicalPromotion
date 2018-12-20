@@ -13,7 +13,7 @@ def get_states(capacities):
     all_states = itertools.product(
         *[get_level_states(capacity) for capacity in capacities]
     )
-    invalid_state = lambda state: sum(state[-1]) == 0
+    invalid_state = lambda state: sum(state[-1]) != capacities[-1]
     return itertools.filterfalse(invalid_state, all_states)
 
 
