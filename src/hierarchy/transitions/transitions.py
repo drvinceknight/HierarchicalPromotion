@@ -38,8 +38,7 @@ def get_rate(state_in, state_out, capacities, r, lmbda, mu):
             and delta[i, j] == 1
             and delta[i - 1, j] == -1
         ):
-            return r * state_in[i, j] + state_in[i, (j + 1) % 2]
-
+            return max(r * state_in[i, j] + state_in[i, (j + 1) % 2], 1)
     return 0
 
 
