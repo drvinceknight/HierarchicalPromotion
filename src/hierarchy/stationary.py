@@ -8,7 +8,8 @@ def get_stationary_distribution(capacities, r, lmbda, mu):
         capacities=capacities, r=r, lmbda=lmbda, mu=mu
     )
 
-    vals, vects = np.linalg.eig(matrix.transpose())
-    zero_eigenvector = vects.transpose()[np.argmin(np.abs(vals))]
-    total = sum(zero_eigenvector)
-    return zero_eigenvector / total
+    dimension = matrix.shape[0]
+    M = np.vstack((matrix.transpose(), np.ones(dimension)))
+    b = np.vstack((np.zeros((dimension, 1)), [1]))
+
+    return np.linalg.lstsq(M, b)[0].transpose()[0]
