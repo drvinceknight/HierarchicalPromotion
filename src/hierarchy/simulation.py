@@ -25,23 +25,31 @@ def get_simulated_history(
     for _ in range(max_transitions):
         yield state, date
 
-        potential_states = hrcy.transitions.get_potential_states(
-            state_in=state, capacities=capacities
+        potential_states = np.array(
+            hrcy.transitions.get_potential_states(
+                state_in=state, capacities=capacities
+            )
         )
 
-        rates = [
-            hrcy.transitions.get_rate(
-                state_in=state,
-                state_out=state_out,
-                capacities=capacities,
-                r=r,
-                lmbda=lmbda,
-                mu=mu,
-            )
-            for state_out in potential_states
-        ]
+        rates = np.array(
+            [
+                hrcy.transitions.get_rate(
+                    state_in=state,
+                    state_out=state_out,
+                    capacities=capacities,
+                    r=r,
+                    lmbda=lmbda,
+                    mu=mu,
+                )
+                for state_out in potential_states
+            ]
+        )
 
-        samples = np.random.exponential(rates)
+        non_zero_rate_indices = np.where(rates)
+        rates = rates[non_zero_rate_indices]
+        potential_states = potential_states[non_zero_rate_indices]
+
+        samples = np.random.exponential(1 / np.array(rates))
 
         state = potential_states[np.argmin(samples)]
         date += np.min(samples)
