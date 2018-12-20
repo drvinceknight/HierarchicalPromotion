@@ -246,3 +246,4 @@ TSWLatexianTemp*
 src/hierarchy.egg-info/
 .coverage
 *__pycache__*
+.ipynb_checkpoints/
