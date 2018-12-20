@@ -4,6 +4,7 @@ import hierarchy as hrcy
 
 
 def get_stationary_distribution(capacities, r, lmbda, mu):
+    assert capacities[-1] == 1
     matrix = hrcy.transitions.get_transition_matrix(
         capacities=capacities, r=r, lmbda=lmbda, mu=mu
     )

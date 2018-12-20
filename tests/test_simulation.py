@@ -4,8 +4,8 @@ import hierarchy as hrcy
 
 
 def test_simulation_seed_0():
-    capacities = [3, 2]
-    initial_state = [[2, 1], [1, 1]]
+    capacities = [3, 1]
+    initial_state = [[2, 1], [1, 0]]
     r = 1.1
     lmbda = [2, 3]
     mu = [[0.2, 0.1], [1.2, 1.1]]
@@ -30,7 +30,7 @@ def test_simulation_seed_0():
     assert all(
         all(np.sum(state, axis=1) + 1 >= capacities) for state in history
     )
-    assert np.array_equal(history[-1], [[0, 2], [1, 1]])
+    assert np.array_equal(history[-1], [[0, 2], [1, 0]])
 
     assert len(dates) == max_transitions
     assert np.min(np.diff(dates)) >= 0
@@ -38,8 +38,8 @@ def test_simulation_seed_0():
 
 
 def test_simulation_seed_1():
-    capacities = [3, 2]
-    initial_state = [[2, 1], [1, 1]]
+    capacities = [3, 1]
+    initial_state = [[2, 1], [1, 0]]
     r = 1.1
     lmbda = [2, 3]
     mu = [[0.2, 0.1], [1.2, 1.1]]
@@ -64,7 +64,7 @@ def test_simulation_seed_1():
     assert all(
         all(np.sum(state, axis=1) + 1 >= capacities) for state in history
     )
-    assert np.array_equal(history[-1], [[1, 1], [1, 1]])
+    assert np.array_equal(history[-1], [[1, 1], [1, 0]])
 
     assert len(dates) == max_transitions
     assert np.min(np.diff(dates)) >= 0
@@ -72,7 +72,7 @@ def test_simulation_seed_1():
 
 
 def test_simulation_seed_0_no_initial_state():
-    capacities = [3, 2]
+    capacities = [3, 1]
     r = 1.1
     lmbda = [2, 3]
     mu = [[0.2, 0.1], [1.2, 1.1]]
@@ -92,7 +92,7 @@ def test_simulation_seed_0_no_initial_state():
     history, dates = map(list, zip(*output))
 
     assert len(history) == max_transitions
-    assert np.array_equal(history, [[[1, 2], [2, 0]]])
+    assert np.array_equal(history, [[[1, 2], [1, 0]]])
 
     assert len(dates) == max_transitions
     assert dates == [0]

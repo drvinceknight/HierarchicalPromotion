@@ -10,6 +10,7 @@ def state_to_tikz(
     colors=["blue", "red", "black"],
     styles=["dashed", "dotted"],
 ):
+    assert capacities[-1] == 1
     write_nodes = ""
     node_id = 0
     nodes_sets = []

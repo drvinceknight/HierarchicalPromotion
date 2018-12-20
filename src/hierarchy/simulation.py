@@ -8,18 +8,18 @@ import hierarchy as hrcy
 def get_simulated_history(
     capacities, r, lmbda, mu, max_transitions, initial_state=None, seed=None
 ):
-
+    assert capacities[-1] == 1
     if seed is not None:
         random.seed(seed)
         np.random.seed(seed)
 
     if initial_state is None:
         initial_state = []
-        for capacity in capacities:
+        for capacity in capacities[:-1]:
             number = random.randint(0, capacity)
             level = [number, capacity - number]
             initial_state.append(level)
-
+        initial_state.append([1, 0])
     state, date = np.array(initial_state), 0
 
     for _ in range(max_transitions):
