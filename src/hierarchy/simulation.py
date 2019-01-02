@@ -1,3 +1,4 @@
+import collections
 import random
 
 import numpy as np
@@ -53,3 +54,40 @@ def get_simulated_history(
 
         state = potential_states[np.argmin(samples)]
         date += np.min(samples)
+
+
+def get_simulated_stationary_vector(
+    capacities,
+    r,
+    lmbda,
+    mu,
+    max_transitions=1000,
+    number_of_repetitions=100,
+    initial_state=None,
+    seed=None,
+):
+    all_history = collections.Counter()
+
+    states = list(hrcy.states.get_states(capacities=capacities))
+
+    for seed in range(number_of_repetitions):
+        output = list(
+            hrcy.get_simulated_history(
+                capacities=capacities,
+                r=r,
+                lmbda=lmbda,
+                mu=mu,
+                max_transitions=max_transitions,
+                seed=seed,
+            )
+        )
+        history, dates = map(list, zip(*output))
+        for state, time in zip(history, np.diff(dates)):
+            all_history[tuple(map(tuple, state.astype(int)))] += time
+
+    total = np.sum([v for v in all_history.values()])
+    simulated_stationary_vector = np.array(
+        [all_history.get(state, 0) / (total) for state in states]
+    )
+
+    return simulated_stationary_vector
