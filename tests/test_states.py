@@ -10,9 +10,7 @@ def test_get_states():
     assert type(states_generator) is itertools.filterfalse
 
     expected_states = list(
-        itertools.product(
-            [(0, 2), (1, 1), (2, 0), (0, 1), (1, 0)], [(1, 0)]
-        )
+        itertools.product([(0, 2), (1, 1), (2, 0), (0, 1), (1, 0)], [(1, 0)])
     )
     assert list(states_generator) == expected_states
 
