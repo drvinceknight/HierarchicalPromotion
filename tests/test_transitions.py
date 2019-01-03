@@ -77,12 +77,13 @@ def test_get_transition_matrix():
     assert np.array_equal(matrix.shape, np.array([5, 5]))
 
     expected_matrix = np.array(
-[[-0.1,  0. ,  0. ,  0.1,  0. ],
- [ 0. , -0.3,  0. ,  0.2,  0.1],
- [ 0. ,  0. , -0.2,  0. ,  0.2],
- [ 3. ,  2. ,  0. , -5. ,  0. ],
- [ 0. ,  3. ,  2. ,  0. , -5. ],]
-
+        [
+            [-0.1, 0.0, 0.0, 0.1, 0.0],
+            [0.0, -0.3, 0.0, 0.2, 0.1],
+            [0.0, 0.0, -0.2, 0.0, 0.2],
+            [3.0, 2.0, 0.0, -5.0, 0.0],
+            [0.0, 3.0, 2.0, 0.0, -5.0],
+        ]
     )
     assert np.allclose(matrix, expected_matrix)
 
