@@ -1,7 +1,14 @@
 \documentclass{article}
+\usepackage[margin=2.5cm, includefoot, footskip=30pt]{geometry}
+\pagestyle{plain}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{1}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
+
+\newcommand{\R}{\mathbb{R}}
 
 \title{The effect of homophily in hierarchical systems}
 
@@ -12,7 +19,7 @@
 \maketitle
 
 
-\section{Mathematical formulation of model}
+\section{Mathematical formulation of base model}
 
 \begin{itemize}
     \item Given a hierarchical system with \(K\) levels.
@@ -29,7 +36,7 @@ Consider a state space \(\S\):
         \begin{array}{l}
         s_{i0} + s_{i1} \leq C_i\text{ for all }0\leq i \leq K - 1\\
         s_{K-1} = (1, 0)\\
-        \sum_{i=0}^{K - 1}s_{i0} + s_{i1} \in\left\{\sum_{i=0}^{K}C_i, \sum_{i=0}^{K}C_i - 1\right\}\\
+        \sum_{i=0}^{K - 1}s_{i0} + s_{i1} \in\left\{\sum_{i=0}^{K - 1}C_i, \sum_{i=0}^{K - 1}C_i - 1\right\}\\
 
         \end{array}
                 \right.\right\}
@@ -41,7 +48,7 @@ For example,
 
 \begin{itemize}
     \item Let \(K = 3\)
-    \item Let \(C = (5, 3, 1)\)
+    \item Let \(C = (4, 3, 1)\)
 \end{itemize}
 
 Then:
@@ -76,7 +83,7 @@ Given two elements \(s^{(1)}, s^{(2)}\in \S\) the transition rates are given by:
         \begin{cases}
             \mu_{ij},& \text{ if }s^{(2)} - s^{(1)} = -e_{ij}
             \text{ and }s^{(1)}_{i0} + s^{(1)}_{i1} = C_i\text{ for all }i\\
-           \text{max}(rS_{ij} + S_{i, \bar j}, 1),& \text{ if }s^{(2)} - s^{(1)} = e_{ij} - e_{i-1, j}
+           \text{max}(rs_{ij} + s_{i, \bar j}, 1),& \text{ if }s^{(2)} - s^{(1)} = e_{ij} - e_{i-1, j}
                                      \text{ and }s^{(1)}_{i0} + s^{(1)}_{i1} < C_{i}
                                      \text{ and }i > 0\\
            \lambda_{j},&\text{ if }s^{(2)} - s^{(1)} = e_{0j}
@@ -94,6 +101,91 @@ Where:
 \end{itemize}
 
 % TODO Add some examples.
+
+\section{Mathematical formulation of model with competence}
+
+The base model described in the previous section does not take into account the
+competence of the individuals. Let's consider the above example of:
+
+\begin{itemize}
+    \item \(K = 3\) and \(C = (4, 3, 1)\)
+\end{itemize}
+
+A possible state \(s\) for the above configuration when competence is taken into
+account is:
+
+\[
+    s = \begin{pmatrix}
+        (1, 0.1) & (1, 0.2) & (1, 0.3) & (0, 0.5) \\
+        (1, 0.2) & (1, 0.3) & (0, 0.8) \\
+        (1, 0.7) \\
+    \end{pmatrix}
+\]
+
+Note that this is a possible state for the configurations of \(K\) and \(C\) but
+not the only one. The competence of each individual can be any real number between
+\([0, 1]\), thus there are an infinite number of possible states.
+
+The set of possible states, denoted as \(S\), is given by,
+
+\begin{equation}\label{eqn:state_space}
+    \S = \left\{
+        s \in (\{0, 1\}, \R^{[0,1]}) ^ {K \times C}  \left|
+        \begin{array}{l}
+         s_{i,j} = (l_{i, j}, c_{i, j}) \quad \forall i \in [0, K -1] \quad \forall j \in [C_i - 1, C_i] \\
+        \text{ where } l_{i, j} \in \{0, 1\} \text{ and } c_{i, j} \in \R^{[0,1]} \\
+        |s_{k - 1}| = 1  \\
+        l_{k -1, 1} = 0
+    \end{array}
+    \right.\right\}
+\end{equation}
+
+where \(s_{i, j}\) is a tuple of \((l_{i, j}, c_{i, j})\) where \(l_{i, j}\) is the
+type of individual \(j\) at level \(i\) and \(c_{i, j}\) is the individual's
+competence.
+
+Promotion in the competence model assumes that individuals of the same type give a random
+bonus to the competence of individuals like them.
+Thus for a state \(s\) where a promotion is happening at level \(i\), the promotion
+probability of an individual \(j\) at level \(i - 1\) is given by:
+
+\begin{equation}
+    P(i, j) =
+    \frac{
+    \displaystyle \sum_{t = 1} ^ {C_{i -1} - 1} \text{max}((1 - |l_{i-i, t} - l_{i, j}|) \gamma_t, 1) \ c_{i, j}}
+    {
+    \displaystyle \sum_{\bar{j}=1}^{C_i} \sum_{t = 1} ^ {C_{i -1} - 1} \text{max}((1 - |l_{i-i, t} - l_{i, j}|) \gamma_t, 1) \ c_{i, \bar{j}}
+    },
+\end{equation}
+
+where \(\gamma_{t} > 1\) is randomly sampled at each \(t\) from \([0, \Gamma]\).
+
+Thus, the transition rates between two states are given by:
+
+\begin{equation}\label{eqn:transition_rates}
+        \begin{cases}
+            \mu_{ij},& |s_i| = C_i\text{ for all }i\\
+            P(i, j), & |s_i| < C_{i} \text{ and }i > 0\\
+           \lambda_{(l, c)},& |s_{0}| = C_0 - 1\\
+        \end{cases}
+\end{equation}
+
+Where:
+
+\begin{itemize}
+    \item \(\mu_{ij}\) is the retirement rate of the agent \(j\) at level
+        \(i\).
+    \item \(\lambda_{(l, c)}\) is the hiring rate of an individual \(l\) that has
+    a competence \(c\).
+\end{itemize}
+
+The competence of the system is the total competence of the individuals in the
+system regarding their type.
+
+\begin{equation}\label{eqn:state_space}
+    \sum_{i = 0} ^ {K - 1} \sum_{j=1} ^ {C_i} c_{i, j}
+\end{equation}
+
 
 \end{document}
 
