@@ -5,3 +5,5 @@ from .base.transitions import (
     is_full,
     find_free_levels,
 )
+
+from .competence.transitions import get_types_in_state_from_competence_state
