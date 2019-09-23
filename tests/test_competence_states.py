@@ -70,8 +70,9 @@ def test_get_level_states():
     assert type(states_generators) is types.GeneratorType
 
     states = list(states_generators)
-    types_in_states = hrcy.states.get_types_in_state_from_competence_state(states)
-    print(types_in_states)
+    types_in_states = hrcy.states.get_types_in_state_from_competence_state(
+        states
+    )
     assert types_in_states == [
         (0, 3),
         (1, 2),

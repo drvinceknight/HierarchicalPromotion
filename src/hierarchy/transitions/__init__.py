@@ -6,4 +6,7 @@ from .base.transitions import (
     find_free_levels,
 )
 
-from .competence.transitions import get_competence_potential_states
+from .competence.transitions import (
+    get_competence_next_state,
+    provoce_retirement,
+)
