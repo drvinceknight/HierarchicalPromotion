@@ -272,7 +272,11 @@ def test_make_promotion():
             )
             for individual_type in [1, 0, 0]
         ],
-        [
+    ]
+
+    expected_state_out = [
+        [None]
+        + [
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
