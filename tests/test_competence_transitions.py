@@ -88,7 +88,8 @@ def test_get_potential_states_promotion():
     state_in = [
         [
             hrcy.states.Individual(
-                individual_type=individual_type, competence_distribution=distribution
+                individual_type=individual_type,
+                competence_distribution=distribution,
             )
             for individual_type in [0, 1, 0]
         ],
@@ -115,7 +116,7 @@ def test_get_potential_states_promotion():
         for level in states
     ]
 
-    expected_states = ([[1, 1], [1, 1], [1, 0]], [[2, 0], [0, 2], [1, 0]],)
+    expected_states = ([[1, 1], [1, 1], [1, 0]], [[2, 0], [0, 2], [1, 0]])
     assert len(expected_states) == len(potential_types_in_states)
     assert all(
         np.array_equal(potential, expected)
