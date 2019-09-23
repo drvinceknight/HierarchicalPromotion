@@ -9,12 +9,14 @@ import hierarchy as hrcy
 
 def test_get_types_in_state_from_competence_state():
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
 
     state = [
         [
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 1]
         ],
@@ -22,6 +24,7 @@ def test_get_types_in_state_from_competence_state():
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [1, 0]
         ],
@@ -38,24 +41,28 @@ def test_get_types_in_state_from_competence_state():
 def test_get_potential_states_hire():
     capacities = [3, 2, 1]
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
 
     state_in = [
         [
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for _ in range(2)
         ]
         + [None],
         [
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for _ in range(2)
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -84,24 +91,28 @@ def test_get_potential_states_hire():
 def test_get_potential_states_promotion():
     capacities = [3, 2, 1]
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
 
     state_in = [
         [
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 1, 0]
         ],
         [
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
             None,
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -129,11 +140,13 @@ def test_get_potential_states_promotion():
 def test_get_potential_states_retirement():
     capacities = [3, 2, 1]
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
 
     state_in = [
         [
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for _ in range(3)
         ],
@@ -141,12 +154,14 @@ def test_get_potential_states_retirement():
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 1]
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -179,16 +194,19 @@ def test_get_potential_states_retirement():
 def test_get_potential_states_promotion_all_capacities_one():
     capacities = [1, 1, 1]
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
     state_in = [
         [
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
         [None],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -217,33 +235,39 @@ def test_get_potential_states_promotion_all_capacities_one():
 def test_get_transition_rate_retirement():
     capacities = [3, 1]
     distribution = distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
     state_in = [
         [
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 1, 0]
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
     state_out = [
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
             None,
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -266,15 +290,18 @@ def test_get_transition_rate_retirement():
         [
             None,
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -293,16 +320,19 @@ def test_get_transition_rate_retirement():
     state_out = [
         [
             hrcy.states.Individual(
-                individual_type=1, competence_distribution=distribution
+                individual_type=1, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             ),
             None,
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -321,20 +351,23 @@ def test_get_transition_rate_retirement():
 
 def test_get_transition_rate_hire():
     capacities = [3, 1]
-    distribution = distribution = scipy.stats.uniform(0, 1)
+    distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
 
     state_in = [
         [
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 0]
         ]
         + [None],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -343,12 +376,14 @@ def test_get_transition_rate_hire():
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 0, 1]
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]
@@ -371,12 +406,14 @@ def test_get_transition_rate_hire():
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
             for individual_type in [0, 0, 0]
         ],
         [
             hrcy.states.Individual(
-                individual_type=0, competence_distribution=distribution
+                individual_type=0, competence_distribution=distribution,
+                retirement_rate=retirement_rate
             )
         ],
     ]

@@ -10,8 +10,9 @@ import hierarchy as hrcy
 def test_get_states():
     capacities = [2, 1]
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
     states_generator = hrcy.states.get_competence_states(
-        capacities, distribution
+        capacities, distribution, retirement_rate,
     )
     assert type(states_generator) is itertools.filterfalse
 
@@ -45,8 +46,11 @@ def test_get_states():
 def test_get_level_states():
     capacity = 3
     distribution = scipy.stats.uniform(0, 1)
+    retirement_rate = 0.4
     states_generators = hrcy.states.get_competence_level_states(
-        capacity=capacity, competence_distribution=distribution
+        capacity=capacity,
+        competence_distribution=distribution,
+        retirement_rate=retirement_rate,
     )
     assert type(states_generators) is types.GeneratorType
 

@@ -11,7 +11,7 @@ class Individual:
         individual_type,
         competence_distribution,
         retirement_rate,
-        last_retirement,
+        last_retirement=0,
     ):
         self.individual_type = individual_type
         self.competence = competence_distribution.rvs()
