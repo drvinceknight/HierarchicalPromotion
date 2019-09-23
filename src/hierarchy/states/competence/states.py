@@ -43,11 +43,18 @@ def get_competence_level_states(capacity, competence_distribution):
 
         yield level
 
+
 def get_competence_states(capacities, competence_distribution):
     assert capacities[-1] == 1
     all_states = itertools.product(
-        *[get_competence_level_states(capacity,
-            competence_distribution=competence_distribution) for capacity in capacities]
+        *[
+            get_competence_level_states(
+                capacity, competence_distribution=competence_distribution
+            )
+            for capacity in capacities
+        ]
     )
-    invalid_state = lambda state: state[-1][0] is None or state[-1][0].individual_type == 1
+    invalid_state = (
+        lambda state: state[-1][0] is None or state[-1][0].individual_type == 1
+    )
     return itertools.filterfalse(invalid_state, all_states)
