@@ -44,7 +44,7 @@ def get_competence_potential_states(
                 ]
                 for index_to_retire in indices:
                     potential_state = copy.deepcopy(state_in)
-                    del potential_state[i][index_to_retire]
+                    potential_state[i][index_to_retire] = None
                 potential_states.append(potential_state)
         if len(delta_indices) == 2:
             i, j = delta_indices[0]
@@ -59,9 +59,14 @@ def get_competence_potential_states(
                     potential_state[i + 1].append(
                         potential_state[i][index_to_promote]
                     )
-                    del potential_state[i][index_to_promote]
+                    potential_state[i][index_to_promote] = None
                 potential_states.append(potential_state)
     return potential_states
+
+
+def get_competence_rate(state_in, state_out, capacities, r, lmbda, mu):
+    """
+    """
 
 
 def get_types_in_state_from_competence_state(state):

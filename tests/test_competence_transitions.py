@@ -212,3 +212,182 @@ def test_get_potential_states_promotion_all_capacities_one():
             potential_types_in_states, expected_states
         )
     )
+
+
+def test_get_transition_rate_retirement():
+    capacities = [3, 1]
+    distribution = distribution = scipy.stats.uniform(0, 1)
+    state_in = [
+        [
+            hrcy.states.Individual(
+                individual_type=individual_type,
+                competence_distribution=distribution,
+            )
+            for individual_type in [0, 1, 0]
+        ],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    state_out = [
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            ),
+            None,
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            ),
+        ],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    upper_gamma = 3
+    lmbda = [2, 3]
+    mu = [[0.2, 0.1, 0.3], [0.8]]
+    assert (
+        hrcy.transitions.get_competence_rate(
+            state_in=state_in,
+            state_out=state_out,
+            capacities=capacities,
+            upper_gamma=upper_gamma,
+            lmbda=lmbda,
+            mu=mu,
+        )
+        == 0.1
+    )
+
+    state_out = [
+        [
+            None,
+            hrcy.states.Individual(
+                individual_type=1, competence_distribution=distribution
+            ),
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            ),
+        ],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    assert (
+        hrcy.transitions.get_competence_rate(
+            state_in=state_in,
+            state_out=state_out,
+            capacities=capacities,
+            upper_gamma=upper_gamma,
+            lmbda=lmbda,
+            mu=mu,
+        )
+        == 0.2
+    )
+
+    state_out = [
+        [
+            hrcy.states.Individual(
+                individual_type=1, competence_distribution=distribution
+            ),
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            ),
+            None,
+        ],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    assert (
+        hrcy.transitions.get_competence_rate(
+            state_in=state_in,
+            state_out=state_out,
+            capacities=capacities,
+            upper_gamma=upper_gamma,
+            lmbda=lmbda,
+            mu=mu,
+        )
+        == 0.3
+    )
+
+
+def test_get_transition_rate_hire():
+    capacities = [3, 1]
+    distribution = distribution = scipy.stats.uniform(0, 1)
+
+    state_in = [
+        [
+            hrcy.states.Individual(
+                individual_type=individual_type,
+                competence_distribution=distribution,
+            )
+            for individual_type in [0, 0]
+        ]
+        + [None],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    state_out = [
+        [
+            hrcy.states.Individual(
+                individual_type=individual_type,
+                competence_distribution=distribution,
+            )
+            for individual_type in [0, 0, 1]
+        ],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    upper_gamma = 3
+    lmbda = [0.2, 0.7]
+    mu = [[0.2, 0.1, 0.3], [0.8]]
+    assert (
+        hrcy.transitions.get_competence_rate(
+            state_in=state_in,
+            state_out=state_out,
+            capacities=capacities,
+            upper_gamma=upper_gamma,
+            lmbda=lmbda,
+            mu=mu,
+        )
+        == 0.7
+    )
+    state_out = [
+        [
+            hrcy.states.Individual(
+                individual_type=individual_type,
+                competence_distribution=distribution,
+            )
+            for individual_type in [0, 0, 0]
+        ],
+        [
+            hrcy.states.Individual(
+                individual_type=0, competence_distribution=distribution
+            )
+        ],
+    ]
+    assert (
+        hrcy.transitions.get_competence_rate(
+            state_in=state_in,
+            state_out=state_out,
+            capacities=capacities,
+            upper_gamma=upper_gamma,
+            lmbda=lmbda,
+            mu=mu,
+        )
+        == 0.2
+    )
