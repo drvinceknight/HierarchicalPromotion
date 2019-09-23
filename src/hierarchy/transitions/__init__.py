@@ -1,4 +1,4 @@
-from .transitions import (
+from .base.transitions import (
     get_rate,
     get_transition_matrix,
     get_potential_states,
