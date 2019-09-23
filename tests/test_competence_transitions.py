@@ -150,6 +150,7 @@ def test_get_next_state_promote():
                 competence_distribution=distribution,
                 retirement_rate=retirement_rate,
             )
+            for individual_type in [1, 0]
         ],
     ]
     state_out, out_last_retirement_date = hrcy.transitions.get_competence_next_state(
