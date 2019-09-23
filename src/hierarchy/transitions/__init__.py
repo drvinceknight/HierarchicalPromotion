@@ -6,7 +6,4 @@ from .base.transitions import (
     find_free_levels,
 )
 
-from .competence.transitions import (
-    get_types_in_state_from_competence_state,
-    get_competence_potential_states,
-)
+from .competence.transitions import get_competence_potential_states
