@@ -8,5 +8,7 @@ from .base.transitions import (
 
 from .competence.transitions import (
     get_competence_next_state,
-    provoce_retirement,
+    provoke_retirement,
+    provoke_hire,
+    provoke_promotion,
 )
