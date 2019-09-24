@@ -23,7 +23,7 @@ def get_competence_next_state(
     ]
 
     if occupied_spaces == capacities:
-        state_out, last_retirement = provoke_retirement(state_in)
+        state_out, last_retirement = make_retirement(state_in)
 
         return state_out, last_retirement
 
@@ -31,7 +31,7 @@ def get_competence_next_state(
         occupied_spaces[0] == capacities[0] - 1
     ):
         np.random.seed(seed)
-        state_out = provoke_hire(
+        state_out = make_hire(
             state_in,
             lmbda,
             competence_distribution,
@@ -44,12 +44,12 @@ def get_competence_next_state(
     if (occupied_spaces[0] == capacities[0]) and (
         occupied_spaces[1:] != capacities[1:]
     ):
-        state_out = provoke_promotion(state_in, capacities, Gamma)
+        state_out = make_promotion(state_in, capacities, Gamma)
 
         return state_out, last_retirement
 
 
-def provoke_retirement(state_in):
+def make_retirement(state_in):
     """
     Simulates a retirement. The individual with the maximum retirement date
     leaves.
@@ -71,7 +71,7 @@ def provoke_retirement(state_in):
     return state_out, last_retirement
 
 
-def provoke_hire(
+def make_hire(
     state_in, lmbda, competence_distribution, retirement_rate, last_retirement
 ):
     """
@@ -100,7 +100,7 @@ def provoke_hire(
     return state_out
 
 
-def provoke_promotion(state_in, capacities, Gamma):
+def make_promotion(state_in, capacities, Gamma):
     state_out = copy.deepcopy(state_in)
 
     free_space = [
