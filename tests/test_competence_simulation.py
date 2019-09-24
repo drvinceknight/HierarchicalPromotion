@@ -14,7 +14,7 @@ def test_get_competence_simulated_history():
     max_transitions = 10
 
     output = list(
-        hrcy.get_competence_simulated_history(
+        hrcy.simulation.get_competence_simulated_history(
             capacities,
             lmbda,
             competence_distribution,
@@ -33,7 +33,7 @@ def test_get_competence_simulated_history():
     assert len(retirement_dates) == max_transitions
     assert all(
         [
-            retirement_dates[i] < retirement_dates[i + 1]
+            retirement_dates[i] <= retirement_dates[i + 1]
             for i, _ in enumerate(retirement_dates[:-1])
         ]
     )

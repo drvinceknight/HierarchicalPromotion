@@ -1,1 +1,3 @@
 from .base import get_simulated_history, get_simulated_stationary_vector
+
+from .competence import get_competence_simulated_history
