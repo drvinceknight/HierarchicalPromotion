@@ -105,7 +105,6 @@ def test_get_next_state_hire():
         competence_distribution=distribution,
         retirement_rate=retirement_rate,
         Gamma=Gamma,
-        seed=seed,
     )
     expected_type_of_individual = 0
 
@@ -162,7 +161,6 @@ def test_get_next_state_promote():
         competence_distribution=distribution,
         retirement_rate=retirement_rate,
         Gamma=Gamma,
-        seed=seed,
     )
     expected_type_of_promoted_individual = 0
 

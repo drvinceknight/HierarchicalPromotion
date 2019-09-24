@@ -14,9 +14,7 @@ def get_competence_next_state(
     competence_distribution,
     retirement_rate,
     Gamma,
-    seed=0,
 ):
-    size = len(capacities)
     occupied_spaces = [
         sum(individual is not None for individual in level)
         for level in state_in
@@ -30,7 +28,6 @@ def get_competence_next_state(
     if (occupied_spaces[1:] == capacities[1:]) and (
         occupied_spaces[0] == capacities[0] - 1
     ):
-        np.random.seed(seed)
         state_out = make_hire(
             state_in,
             lmbda,
