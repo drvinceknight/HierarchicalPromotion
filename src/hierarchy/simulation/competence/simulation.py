@@ -17,13 +17,35 @@ def get_competence_simulated_history(
         np.random.seed(seed)
 
     if initial_state is None:
-        potential = list(
-            hrcy.states.get_competence_states(
-                capacities, competence_distribution, retirement_rate
-            )
+        initial_state = []
+        for capacity in capacities[:-1]:
+            number_of_zeros = np.random.randint(0, capacity)
+            level = [
+                hrcy.states.Individual(
+                    individual_type=0,
+                    competence_distribution=competence_distribution,
+                    retirement_rate=retirement_rate,
+                )
+                for _ in range(number_of_zeros)
+            ] + [
+                hrcy.states.Individual(
+                    individual_type=0,
+                    competence_distribution=competence_distribution,
+                    retirement_rate=retirement_rate,
+                )
+                for _ in range(capacity - number_of_zeros)
+            ]
+            initial_state.append(level)
+        initial_state.append(
+            [
+                hrcy.states.Individual(
+                    individual_type=0,
+                    competence_distribution=competence_distribution,
+                    retirement_rate=retirement_rate,
+                )
+            ]
         )
-        index = np.random.choice(range(len(potential)))
-        initial_state = potential[index]
+
     state, last_retirement = (
         np.array([np.array(level) for level in initial_state]),
         0,
@@ -31,7 +53,6 @@ def get_competence_simulated_history(
 
     for _ in range(max_transitions):
         yield state, last_retirement
-
         state_out, last_retirement = hrcy.transitions.get_competence_next_state(
             state_in=state,
             capacities=capacities,
