@@ -5,3 +5,10 @@ from .base.transitions import (
     is_full,
     find_free_levels,
 )
+
+from .competence.transitions import (
+    get_competence_next_state,
+    make_retirement,
+    make_hire,
+    make_promotion,
+)
