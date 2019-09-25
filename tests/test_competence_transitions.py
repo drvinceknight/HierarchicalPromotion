@@ -11,7 +11,7 @@ def test_get_next_state_retirement():
     distribution = scipy.stats.uniform(0, 1)
     retirement_rate = 0.4
     capacities = [3, 2, 1]
-    last_retirement = 0
+    last_retirement_date = 0
     lmbda = [2, 3]
     Gamma = 5
 
@@ -42,30 +42,29 @@ def test_get_next_state_retirement():
         ],
     ]
 
-    state_out, out_last_retirement = hrcy.transitions.get_competence_next_state(
+    state_out, out_last_retirement_date = hrcy.transitions.get_competence_next_state(
         state_in=state_in,
         capacities=capacities,
-        last_retirement=last_retirement,
+        last_retirement_date=last_retirement_date,
         lmbda=lmbda,
         competence_distribution=distribution,
         retirement_rate=retirement_rate,
         Gamma=Gamma,
     )
 
-    assert out_last_retirement != last_retirement
+    assert out_last_retirement_date != last_retirement_date
     for level in [0, -1]:
         assert [
             individual.individual_type for individual in state_out[level]
         ] == [individual.individual_type for individual in state_in[level]]
-    assert state_out[1][0] == None
-    assert state_out[1][1].individual_type == state_in[1][1].individual_type
+    assert state_out[1][1] == None
 
 
 def test_get_next_state_hire():
     distribution = scipy.stats.uniform(0, 1)
     retirement_rate = 0.4
     capacities = [3, 2, 1]
-    last_retirement = 0
+    last_retirement_date = 0
     lmbda = [2, 3]
     Gamma = (5,)
     seed = 5
@@ -97,10 +96,10 @@ def test_get_next_state_hire():
             )
         ],
     ]
-    state_out, out_last_retirement = hrcy.transitions.get_competence_next_state(
+    state_out, out_last_retirement_date = hrcy.transitions.get_competence_next_state(
         state_in=state_in,
         capacities=capacities,
-        last_retirement=last_retirement,
+        last_retirement_date=last_retirement_date,
         lmbda=lmbda,
         competence_distribution=distribution,
         retirement_rate=retirement_rate,
@@ -108,20 +107,20 @@ def test_get_next_state_hire():
     )
     expected_type_of_individual = 0
 
-    assert out_last_retirement == last_retirement
+    assert out_last_retirement_date == last_retirement_date
     for level in [1, 2]:
         assert [
             individual.individual_type for individual in state_out[level]
         ] == [individual.individual_type for individual in state_in[level]]
     assert state_out[0][0].individual_type == expected_type_of_individual
-    assert state_out[0][0].retirement_date > last_retirement
+    assert state_out[0][0].retirement_date > last_retirement_date
 
 
 def test_get_next_state_promote():
     distribution = scipy.stats.uniform(0, 1)
     retirement_rate = 0.4
     capacities = [3, 2, 1]
-    last_retirement = 0
+    last_retirement_date = 0
     lmbda = [2, 3]
     Gamma = 10
     seed = 10
@@ -153,10 +152,10 @@ def test_get_next_state_promote():
             )
         ],
     ]
-    state_out, out_last_retirement = hrcy.transitions.get_competence_next_state(
+    state_out, out_last_retirement_date = hrcy.transitions.get_competence_next_state(
         state_in=state_in,
         capacities=capacities,
-        last_retirement=last_retirement,
+        last_retirement_date=last_retirement_date,
         lmbda=lmbda,
         competence_distribution=distribution,
         retirement_rate=retirement_rate,
@@ -164,7 +163,7 @@ def test_get_next_state_promote():
     )
     expected_type_of_promoted_individual = 0
 
-    assert out_last_retirement == last_retirement
+    assert out_last_retirement_date == last_retirement_date
     assert [individual.individual_type for individual in state_out[0][:-1]] == [
         1,
         1,
@@ -204,17 +203,17 @@ def test_make_retirement():
         ],
     ]
 
-    state_out, last_retirement = hrcy.transitions.make_retirement(state_in)
+    state_out, last_retirement_date = hrcy.transitions.make_retirement(state_in)
 
-    assert np.isclose(last_retirement, 0.5096501012053217)
-    assert state_out[0][0] == None
+    assert np.isclose(last_retirement_date, 0.03875354866149339)
+    assert state_out[0][-1] == None
 
 
 def test_make_hire():
     distribution = scipy.stats.uniform(0, 1)
     retirement_rate = 0.4
     lmbda = [2, 3]
-    last_retirement = 2
+    last_retirement_date = 2
 
     np.random.seed(1)
     state_in = [
@@ -248,12 +247,12 @@ def test_make_hire():
         lmbda=lmbda,
         competence_distribution=distribution,
         retirement_rate=retirement_rate,
-        last_retirement=last_retirement,
+        last_retirement_date=last_retirement_date,
     )
     expected_individual_type = 1
 
     assert state_out[0][0].individual_type == expected_individual_type
-    assert state_out[0][0].retirement_date > last_retirement
+    assert state_out[0][0].retirement_date > last_retirement_date
 
 
 def test_make_promotion():

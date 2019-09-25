@@ -9,7 +9,7 @@ import hierarchy as hrcy
 def get_competence_next_state(
     state_in,
     capacities,
-    last_retirement,
+    last_retirement_date,
     lmbda,
     competence_distribution,
     retirement_rate,
@@ -21,9 +21,9 @@ def get_competence_next_state(
     ]
 
     if occupied_spaces == capacities:
-        state_out, last_retirement = make_retirement(state_in)
+        state_out, last_retirement_date = make_retirement(state_in)
 
-        return state_out, last_retirement
+        return state_out, last_retirement_date
 
     if (occupied_spaces[1:] == capacities[1:]) and (
         occupied_spaces[0] == capacities[0] - 1
@@ -33,17 +33,17 @@ def get_competence_next_state(
             lmbda,
             competence_distribution,
             retirement_rate,
-            last_retirement,
+            last_retirement_date,
         )
 
-        return state_out, last_retirement
+        return state_out, last_retirement_date
 
     if (occupied_spaces[0] == capacities[0]) and (
         occupied_spaces[1:] != capacities[1:]
     ):
         state_out = make_promotion(state_in, capacities, Gamma)
 
-        return state_out, last_retirement
+        return state_out, last_retirement_date
 
 
 def make_retirement(state_in):
@@ -56,20 +56,24 @@ def make_retirement(state_in):
         [individual.retirement_date for individual in level]
         for level in state_out[:-1]
     ]
-    _, max_index = max(
+    _, min_index = min(
         (rate, (i, j))
         for i, level in enumerate(retirement_dates)
         for j, rate in enumerate(level)
     )
 
-    i, j = max_index
-    last_retirement = state_out[i][j].retirement_date
+    i, j = min_index
+    last_retirement_date = state_out[i][j].retirement_date
     state_out[i][j] = None
-    return state_out, last_retirement
+    return state_out, last_retirement_date
 
 
 def make_hire(
-    state_in, lmbda, competence_distribution, retirement_rate, last_retirement
+    state_in,
+    lmbda,
+    competence_distribution,
+    retirement_rate,
+    last_retirement_date,
 ):
     """
     Simulates a hire.
@@ -91,7 +95,7 @@ def make_hire(
         individual_type=individual_type,
         competence_distribution=competence_distribution,
         retirement_rate=retirement_rate,
-        last_retirement=last_retirement,
+        last_retirement_date=last_retirement_date,
     )
 
     return state_out
@@ -137,10 +141,12 @@ def make_promotion(state_in, capacities, Gamma):
         rate / sum(rates_for_each_individual)
         for rate in rates_for_each_individual
     ]
+
     individual_to_promote_index = np.random.choice(
         range(capacities[level_of_promotion - 1]),
         p=probalities_of_promotion_for_each_individual,
     )
+
     state_out[level_of_promotion][space_of_promotion] = state_out[
         level_of_promotion - 1
     ][individual_to_promote_index]

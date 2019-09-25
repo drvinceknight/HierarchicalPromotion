@@ -6,7 +6,7 @@ import hierarchy as hrcy
 
 
 def get_competence_level_states(
-    capacity, competence_distribution, retirement_rate, last_retirement=0
+    capacity, competence_distribution, retirement_rate, last_retirement_date=0
 ):
     for type_0 in range(capacity + 1):
         level = [
@@ -14,7 +14,7 @@ def get_competence_level_states(
                 individual_type=0,
                 competence_distribution=competence_distribution,
                 retirement_rate=retirement_rate,
-                last_retirement=last_retirement,
+                last_retirement_date=last_retirement_date,
             )
             for _ in range(type_0)
         ]
@@ -23,7 +23,7 @@ def get_competence_level_states(
                 individual_type=1,
                 competence_distribution=competence_distribution,
                 retirement_rate=retirement_rate,
-                last_retirement=last_retirement,
+                last_retirement_date=last_retirement_date,
             )
             for _ in range(capacity - type_0)
         ]
@@ -36,7 +36,7 @@ def get_competence_level_states(
                 individual_type=0,
                 competence_distribution=competence_distribution,
                 retirement_rate=retirement_rate,
-                last_retirement=last_retirement,
+                last_retirement_date=last_retirement_date,
             )
             for _ in range(type_0)
         ]
@@ -45,7 +45,7 @@ def get_competence_level_states(
                 individual_type=1,
                 competence_distribution=competence_distribution,
                 retirement_rate=retirement_rate,
-                last_retirement=last_retirement,
+                last_retirement_date=last_retirement_date,
             )
             for _ in range(capacity - type_0 - 1)
         ]
@@ -55,7 +55,7 @@ def get_competence_level_states(
 
 
 def get_competence_states(
-    capacities, competence_distribution, retirement_rate, last_retirement=0
+    capacities, competence_distribution, retirement_rate, last_retirement_date=0
 ):
     assert capacities[-1] == 1
     all_states = itertools.product(
@@ -64,7 +64,7 @@ def get_competence_states(
                 capacity,
                 competence_distribution=competence_distribution,
                 retirement_rate=retirement_rate,
-                last_retirement=last_retirement,
+                last_retirement_date=last_retirement_date,
             )
             for capacity in capacities
         ]
