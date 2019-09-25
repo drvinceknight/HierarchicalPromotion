@@ -29,7 +29,7 @@ def get_competence_simulated_history(
                 for _ in range(number_of_zeros)
             ] + [
                 hrcy.states.Individual(
-                    individual_type=0,
+                    individual_type=1,
                     competence_distribution=competence_distribution,
                     retirement_rate=retirement_rate,
                 )
@@ -46,17 +46,17 @@ def get_competence_simulated_history(
             ]
         )
 
-    state, last_retirement = (
+    state, last_retirement_date = (
         np.array([np.array(level) for level in initial_state]),
         0,
     )
 
     for _ in range(max_transitions):
-        yield state, last_retirement
-        state_out, last_retirement = hrcy.transitions.get_competence_next_state(
+        yield state, last_retirement_date
+        state_out, last_retirement_date = hrcy.transitions.get_competence_next_state(
             state_in=state,
             capacities=capacities,
-            last_retirement=last_retirement,
+            last_retirement_date=last_retirement_date,
             lmbda=lmbda,
             competence_distribution=competence_distribution,
             retirement_rate=retirement_rate,
