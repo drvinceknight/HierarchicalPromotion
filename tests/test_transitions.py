@@ -190,3 +190,18 @@ def test_find_free_levels():
             state_in=state_in, capacities=capacities
         )
     ) == [1]
+
+
+def test_promotion_is_affected_by_top_level():
+    capacities = [4, 3, 2, 1]
+    lmbda = [1, 1]
+    r = 5
+    mu = [[1, 1], [1, 1], [1, 1]]
+
+    state_in = np.array([[1.0, 3.0], [2.0, 1.0], [0.0, 1.0], [1.0, 0.0]])
+    state_out = np.array([[1.0, 3.0], [1.0, 1.0], [1.0, 1.0], [1.0, 0.0]])
+
+    assert (
+        hrcy.transitions.get_rate(state_in, state_out, capacities, r, lmbda, mu)
+        == r
+    )
