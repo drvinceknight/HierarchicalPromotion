@@ -1,7 +1,8 @@
 import itertools
 import types
-import scipy.stats
+
 import numpy as np
+import scipy.stats
 
 import hierarchy as hrcy
 
