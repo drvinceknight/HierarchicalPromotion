@@ -14,6 +14,7 @@ def get_rate(state_in, state_out, capacities, r, lmbda, mu):
     - lmbda: the hiring rate (vector of size 2)
     - mu: the retirement rate (matrix of same size as state space)
     """
+    assert capacities[-1] == 1
     state_in = np.array(state_in)
     state_out = np.array(state_out)
     delta = state_out - state_in
@@ -38,8 +39,7 @@ def get_rate(state_in, state_out, capacities, r, lmbda, mu):
             and delta[i, j] == 1
             and delta[i - 1, j] == -1
         ):
-            return r * state_in[i, j] + state_in[i, (j + 1) % 2]
-
+            return max(r * state_in[i + 1, j] + state_in[i + 1, (j + 1) % 2], 1)
     return 0
 
 
@@ -52,6 +52,7 @@ def get_transition_matrix(capacities, r, lmbda, mu, digits=7):
     - lmbda: the hiring rate (vector of size 2)
     - mu: the retirement rate (matrix of same size as state space)
     """
+    assert capacities[-1] == 1
     states = list(hrcy.states.get_states(capacities=capacities))
     size = len(states)
     matrix = np.zeros((size, size))
@@ -80,6 +81,7 @@ def get_potential_states(state_in, capacities):
     state_in = np.array(state_in)
     number_of_levels = len(capacities)
     states = []
+
     if is_full(state_in=state_in, capacities=capacities):
         for level in range(number_of_levels - 1):  # No retirement at top level
             for column in (0, 1):
@@ -92,8 +94,13 @@ def get_potential_states(state_in, capacities):
     for level in find_free_levels(state_in=state_in, capacities=capacities):
         for column in (0, 1):
             adjustment = np.zeros((number_of_levels, 2))
-            adjustment[level, column] = 1
-            states.append(state_in + adjustment)
+            if level == 0:
+                adjustment[level, column] = 1
+                states.append(state_in + adjustment)
+            elif state_in[level - 1, column] > 0:
+                adjustment[level, column] = 1
+                adjustment[level - 1, column] = -1
+                states.append(state_in + adjustment)
     return states
 
 

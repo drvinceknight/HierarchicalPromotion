@@ -10,9 +10,7 @@ def test_get_states():
     assert type(states_generator) is itertools.filterfalse
 
     expected_states = list(
-        itertools.product(
-            [(0, 2), (1, 1), (2, 0), (0, 1), (1, 0)], [(0, 1), (1, 0)]
-        )
+        itertools.product([(0, 2), (1, 1), (2, 0), (0, 1), (1, 0)], [(1, 0)])
     )
     assert list(states_generator) == expected_states
 
@@ -36,5 +34,9 @@ def test_enumerate_states():
     assert len(states) == hrcy.states.enumerate_states(capacities)
 
     capacities = [5, 4, 2, 1]
+    states = list(hrcy.states.get_states(capacities))
+    assert len(states) == hrcy.states.enumerate_states(capacities)
+
+    capacities = [5, 4, 1]
     states = list(hrcy.states.get_states(capacities))
     assert len(states) == hrcy.states.enumerate_states(capacities)
