@@ -162,12 +162,12 @@ def test_get_next_state_promote():
         retirement_rate=retirement_rate,
         Gamma=Gamma,
     )
-    expected_type_of_promoted_individual = 0
+    expected_type_of_promoted_individual = 1
 
     assert out_last_retirement_date == last_retirement_date
-    assert [individual.individual_type for individual in state_out[0][:-1]] == [
+    assert [individual.individual_type for individual in state_out[0][1:]] == [
         1,
-        1,
+        0,
     ]
     assert (
         state_out[1][1].individual_type == expected_type_of_promoted_individual
@@ -272,11 +272,7 @@ def test_make_promotion():
             )
             for individual_type in [1, 0, 0]
         ],
-    ]
-
-    expected_state_out = [
-        [None]
-        + [
+        [
             hrcy.states.Individual(
                 individual_type=individual_type,
                 competence_distribution=distribution,
