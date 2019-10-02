@@ -117,7 +117,7 @@ def make_promotion(state_in, capacities, Gamma):
         competence = 0
         for individual in state_in[level_of_promotion]:
             if individual is not None:
-                gamma = np.random.randint(1, Gamma)
+                gamma = Gamma
                 competence += (
                     max(
                         (

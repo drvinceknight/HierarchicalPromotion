@@ -13,7 +13,7 @@ def test_simulation_seed_0():
     max_transitions = 10
 
     output = list(
-        hrcy.get_simulated_history(
+        hrcy.simulation.get_simulated_history(
             capacities=capacities,
             r=r,
             lmbda=lmbda,
@@ -47,7 +47,7 @@ def test_simulation_seed_1():
     max_transitions = 10
 
     output = list(
-        hrcy.get_simulated_history(
+        hrcy.simulation.get_simulated_history(
             capacities=capacities,
             r=r,
             lmbda=lmbda,
@@ -80,7 +80,7 @@ def test_simulation_seed_0_no_initial_state():
     max_transitions = 1
 
     output = list(
-        hrcy.get_simulated_history(
+        hrcy.simulation.get_simulated_history(
             capacities=capacities,
             r=r,
             lmbda=lmbda,
@@ -106,7 +106,7 @@ def test_get_simulated_stationary_vector():
     max_transitions = 200
     number_of_repetitions = 100
 
-    simulated_stationary_vector = hrcy.get_simulated_stationary_vector(
+    simulated_stationary_vector = hrcy.simulation.get_simulated_stationary_vector(
         capacities=capacities,
         r=r,
         lmbda=lmbda,

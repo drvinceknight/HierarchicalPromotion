@@ -1,0 +1,1 @@
+from .simulation import get_competence_simulated_history

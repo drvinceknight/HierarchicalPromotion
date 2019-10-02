@@ -72,7 +72,7 @@ def get_simulated_stationary_vector(
 
     for seed in range(number_of_repetitions):
         output = list(
-            hrcy.get_simulated_history(
+            get_simulated_history(
                 capacities=capacities,
                 r=r,
                 lmbda=lmbda,
